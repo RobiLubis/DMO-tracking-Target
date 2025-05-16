@@ -106,6 +106,23 @@ export default function HealthDataForm({
     onGeneratePDF(formData);
   };
 
+  // Helper function to determine BMI classification
+  const getBMIClassification = (bmi: string) => {
+    const bmiValue = parseFloat(bmi);
+    if (bmiValue < 18.5) return "Underweight";
+    if (bmiValue < 25) return "Normal weight";
+    if (bmiValue < 30) return "Overweight";
+    return "Obese";
+  };
+
+  // Helper function to format ideal weight difference
+  const getWeightDiffText = (diff: string) => {
+    const diffValue = parseFloat(diff);
+    if (diffValue > 0) return `+${diff} kg (above ideal)`;
+    if (diffValue < 0) return `${diff} kg (below ideal)`;
+    return "At ideal weight";
+  };
+
   return (
     <ScrollView className="bg-white">
       <View className="p-4 bg-white rounded-lg shadow-sm">
@@ -288,13 +305,7 @@ export default function HealthDataForm({
               </Text>
               <Text className="text-gray-800">{calculatedBMI}</Text>
               <Text className="text-gray-600 text-sm mt-1">
-                {parseFloat(calculatedBMI) < 18.5
-                  ? "Underweight"
-                  : parseFloat(calculatedBMI) < 25
-                    ? "Normal weight"
-                    : parseFloat(calculatedBMI) < 30
-                      ? "Overweight"
-                      : "Obese"}
+                {getBMIClassification(calculatedBMI)}
               </Text>
             </View>
 
@@ -304,11 +315,7 @@ export default function HealthDataForm({
                   Ideal Weight Difference:
                 </Text>
                 <Text className="text-gray-800">
-                  {parseFloat(idealWeightDiff) > 0
-                    ? `+${idealWeightDiff} kg (above ideal)`
-                    : parseFloat(idealWeightDiff) < 0
-                      ? `${idealWeightDiff} kg (below ideal)`
-                      : "At ideal weight"}
+                  {getWeightDiffText(idealWeightDiff)}
                 </Text>
               </View>
             )}
@@ -327,16 +334,16 @@ export default function HealthDataForm({
                 Daily Nutritional Needs:
               </Text>
               <Text className="text-gray-600 text-sm mt-1">
-                • Protein: 0.8-1.0g per kg of body weight
+                {"• Protein: 0.8-1.0g per kg of body weight"}
               </Text>
               <Text className="text-gray-600 text-sm">
-                • Carbohydrates: 45-65% of daily calories
+                {"• Carbohydrates: 45-65% of daily calories"}
               </Text>
               <Text className="text-gray-600 text-sm">
-                • Fats: 20-35% of daily calories
+                {"• Fats: 20-35% of daily calories"}
               </Text>
               <Text className="text-gray-600 text-sm">
-                • Fiber: 25-30g per day
+                {"• Fiber: 25-30g per day"}
               </Text>
             </View>
           </View>
